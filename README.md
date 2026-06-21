@@ -1,10 +1,7 @@
-
-```markdown
 # KNN Point Forecast EA
 
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 
 **A production‑grade Expert Advisor (EA) for BTC/USDT on the 1‑hour timeframe, powered by a  
 K‑Nearest Neighbours (KNN) machine learning model with Inverse Distance Weighting.**
@@ -35,17 +32,15 @@ all wrapped in an interactive, cell‑by‑cell Jupyter notebook ready for Googl
 ---
 
 ## 🔮 Latest Live Forecast
-
-```
-Bar closed at:    2026-06-21 15:00 UTC
-Close price:      $64,189.97
-Direction:        ▲ BULLISH
+Bar closed at: 2026-06-21 15:00 UTC
+Close price: $64,189.97
+Direction: ▲ BULLISH
 Bullish % (K=5): 100.0%
 Avg Fit Distance: 1.4481
-Point Target:     $64,466.86
-High Target:      $64,628.57
-Low Target:       $64,283.77
-```
+Point Target: $64,466.86
+High Target: $64,628.57
+Low Target: $64,283.77
+
 
 ---
 
@@ -75,72 +70,49 @@ git clone https://github.com/AI4gent/KNN-Point-Forecast-EA.git
 cd KNN-Point-Forecast-EA
 pip install -r requirements.txt
 jupyter notebook KNN_Point_Forecast_EA.ipynb
-```
 
----
+⚙️ Configuration
 
-## ⚙️ Configuration
+All parameters are in Cell 2 of the notebook and are pre‑tuned for BTC/USDT 1H.
+Category	Parameter	Default	Description
+Data	SYMBOL	BTC-USD	Yahoo Finance ticker
+	TIMEFRAME	1h	Candlestick interval
+	PERIOD	360d	Data length
+Capital	INITIAL_CAPITAL	10,000	Starting equity (USD)
+	RISK_PER_TRADE	0.01	1% risk per trade
+KNN Model	K_NEIGHBORS	5	Number of neighbours
+	LOOKBACK_WIN	150	Historical search window (bars)
+	Z_WINDOW	80	Z‑score normalisation window
+	PROJ_BARS	4	Forecast horizon (bars)
+Entry Filters	MIN_BULL_PCT	70	Minimum % bullish neighbours
+	MAX_AVG_DIST	0.8	Max average Euclidean distance
+	MIN_RR_RATIO	1.5	Min reward/risk ratio
+	USE_TREND_FILTER	True	EMA(50) > EMA(200) required
+	USE_TIME_FILTER	True	Trade only during UTC 7–19
+	USE_VOL_FILTER	True	ATR% filter (≥ 0.3%)
+	MIN_BARS_GAP	8	Min bars between trades
+Exit	TRAIL_ACTIVATE_PCT	50	Trail activation threshold
+	TRAIL_EMA_LEN	10	EMA period for trailing stop
+🧠 How It Works
 
-All parameters are in **Cell 2** of the notebook and are pre‑tuned for BTC/USDT 1H.
+    Feature Engineering – Four technical features are calculated per candle and normalised with a rolling Z‑score.
 
-| Category | Parameter | Default | Description |
-|----------|-----------|---------|-------------|
-| **Data** | `SYMBOL` | `BTC-USD` | Yahoo Finance ticker |
-| | `TIMEFRAME` | `1h` | Candlestick interval |
-| | `PERIOD` | `360d` | Data length |
-| **Capital** | `INITIAL_CAPITAL` | 10,000 | Starting equity (USD) |
-| | `RISK_PER_TRADE` | 0.01 | 1% risk per trade |
-| **KNN Model** | `K_NEIGHBORS` | 5 | Number of neighbours |
-| | `LOOKBACK_WIN` | 150 | Historical search window (bars) |
-| | `Z_WINDOW` | 80 | Z‑score normalisation window |
-| | `PROJ_BARS` | 4 | Forecast horizon (bars) |
-| **Entry Filters** | `MIN_BULL_PCT` | 70 | Minimum % bullish neighbours |
-| | `MAX_AVG_DIST` | 0.8 | Max average Euclidean distance |
-| | `MIN_RR_RATIO` | 1.5 | Min reward/risk ratio |
-| | `USE_TREND_FILTER` | True | EMA(50) > EMA(200) required |
-| | `USE_TIME_FILTER` | True | Trade only during UTC 7–19 |
-| | `USE_VOL_FILTER` | True | ATR% filter (≥ 0.3%) |
-| | `MIN_BARS_GAP` | 8 | Min bars between trades |
-| **Exit** | `TRAIL_ACTIVATE_PCT` | 50 | Trail activation threshold |
-| | `TRAIL_EMA_LEN` | 10 | EMA period for trailing stop |
+    KNN Pattern Search – The current Z‑score vector is compared to all historical vectors; the K nearest neighbours (smallest Euclidean distance) are selected.
 
----
+    IDW Forecast – Each neighbour’s forward return over PROJ_BARS candles is weighted by the inverse of its distance. The weighted average return gives the Point Target.
 
-## 🧠 How It Works
+    Entry Logic – A long trade is taken only if all filters pass.
 
-1. **Feature Engineering** – Four technical features are calculated per candle and normalised with a rolling Z‑score.
-2. **KNN Pattern Search** – The current Z‑score vector is compared to all historical vectors; the `K` nearest neighbours (smallest Euclidean distance) are selected.
-3. **IDW Forecast** – Each neighbour’s forward return over `PROJ_BARS` candles is weighted by the inverse of its distance. The weighted average return gives the **Point Target**.
-4. **Entry Logic** – A long trade is taken only if **all** filters pass.
-5. **Exit Management** – Take profit = Point Target, initial stop = Low Target, then trailing stop kicks in dynamically.
+    Exit Management – Take profit = Point Target, initial stop = Low Target, then trailing stop kicks in dynamically.
 
----
+📜 License
 
-## 📁 File Structure
+This project is licensed under the Mozilla Public License 2.0 – you are free to use, modify, and distribute
+the code for both private and commercial purposes. See the LICENSE file for details.
+⚠️ Disclaimer
 
-```
-KNN-Point-Forecast-EA/
-├── KNN_Point_Forecast_EA.ipynb   # Main notebook
-├── requirements.txt              # Python dependencies
-└── README.md                     # This file
-```
-
----
-
-## 📜 License
-
-This project is licensed under the **Mozilla Public License 2.0** – you are free to use, modify, and distribute  
-the code for both private and commercial purposes. See the `LICENSE` file for details.
-
----
-
-## ⚠️ Disclaimer
-
-This software is for **educational and research purposes only**.  
-It does **not** constitute financial advice. Trading cryptocurrencies carries a high level of risk.  
+This software is for educational and research purposes only.
+It does not constitute financial advice. Trading cryptocurrencies carries a high level of risk.
 Always test on a demo account and never trade with money you cannot afford to lose.
 
----
-
-*Built with ❤️ by an Algotrade24.*
-```
+Built with ❤️ by an algo‑trading enthusiast.
