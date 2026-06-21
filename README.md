@@ -10,7 +10,19 @@ Originally inspired by the *“Machine Learning Point Forecast with SR”* indic
 this Python implementation adds entry filters, dynamic risk management, and a full walk‑forward backtest —  
 all wrapped in an interactive, cell‑by‑cell Jupyter notebook ready for Google Colab.
 
+## Overview
 ---
+The **KNN Point Forecast EA** is a fully autonomous trading system that:
+1. Downloads 1‑hour OHLCV data for BTC/USDT from Yahoo Finance.
+2. Computes four normalised technical features for each candle.
+3. Finds the `K` most similar historical patterns using Euclidean distance in Z‑score space.
+4. Derives a point forecast (target price) with a weighted average of past outcomes (IDW).
+5. Enters a trade only when strict conditions (trend, volatility, time, risk/reward) are met.
+6. Manages the position with a dynamic trailing stop based on a short‑term EMA.
+7. Reports detailed performance metrics and produces publication‑quality charts.
+
+The entire workflow is delivered as an interactive Jupyter notebook that can be run cell‑by‑cell  
+in **Google Colab** without any local setup.
 
 ## 📊 Backtest Results (BTC/USDT 1H)
 
