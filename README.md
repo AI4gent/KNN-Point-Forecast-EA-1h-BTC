@@ -1,8 +1,10 @@
+
 ```markdown
 # KNN Point Forecast EA
 
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 
 **A production‑grade Expert Advisor (EA) for BTC/USDT on the 1‑hour timeframe, powered by a  
 K‑Nearest Neighbours (KNN) machine learning model with Inverse Distance Weighting.**
@@ -140,5 +142,5 @@ Always test on a demo account and never trade with money you cannot afford to lo
 
 ---
 
-*Built with ❤️ by an algo‑trading enthusiast.*
+*Built with ❤️ by an Algotrade24.*
 ```
